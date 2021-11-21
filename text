@@ -1,0 +1,20 @@
+
+        private readonly StoreContext context;
+        public ProductsController(StoreContext context)
+        {
+            this.context = context;
+            
+        }
+        [HttpGet]
+        public ActionResult<List<Product>> GetProducts(){
+            var product = context.Products.ToList();
+            return Ok(products);
+        }
+         [HttpGet("{id}")]
+         public ActionResult<Product> GetProduct(int id)
+         {
+             return context.Products.Find(id);
+         }
+    
+}   
+    
