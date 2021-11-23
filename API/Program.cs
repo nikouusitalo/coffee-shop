@@ -3,6 +3,7 @@
 
 
 
+using System.Collections.Immutable;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
 builder.Services.AddDbContext<StoreContext>(options => {options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 var app = builder.Build();
@@ -21,8 +23,12 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    //middleware
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(opt => {
+        opt.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+    });
 }
 
 app.UseHttpsRedirection();
@@ -40,7 +46,6 @@ try{
     DbInitializer.Initialize(context);
             
 }
-
 catch (Exception ex) 
 {
     logger.LogError(ex, "problem migraring data");
