@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "app/models/product.ts"  ]
+, "src/app/models/product.ts"  ]
 }
